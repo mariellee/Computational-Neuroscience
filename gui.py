@@ -8,7 +8,8 @@ from datetime import datetime
 class TextChanger(threading.Thread):
 
 	def __init__(self, stringVar):
-		self.file = open("testfile.txt", "w")
+		dt = datetime.now().strftime("%Y-%m-%dT%H_%M")
+		self.file = open("gui_data/" + str(dt) + ".txt", "w")
 		super(TextChanger, self).__init__()
 		self.text = stringVar
 
