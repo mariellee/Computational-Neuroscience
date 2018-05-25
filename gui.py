@@ -2,7 +2,7 @@ from tkinter import *
 import time
 import threading
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class TextChanger(threading.Thread):
@@ -17,27 +17,28 @@ class TextChanger(threading.Thread):
 		possible_texts = ["Raise left hand"] * 12
 		possible_texts.extend(["Raise right hand"] * 12)
 		random.shuffle(possible_texts)
-		self.write_to_file("start")
-		time.sleep(2)
-		#possible_text_shown_lengths = [4]
-		#possible_sleep_lengths = [4]
+		timestamp = datetime.now()
+		self.write_to_file("start", timestamp)
+		timestamp += timedelta(0, 2)
+		time.sleep((timestamp - datetime.now()).total_seconds())
 
 		for i in range(24):
 			message = random.choice(possible_texts)
 			self.text.set(message)
-			self.write_to_file(message)
-			time.sleep(4)
-			#time.sleep(random.choice(possible_text_shown_lengths))
+			self.write_to_file(message, timestamp)
+			timestamp += timedelta(0, 4)
+			time.sleep((timestamp - datetime.now()).total_seconds())
+
 			self.text.set("")
-			self.write_to_file("end")
-			time.sleep(4)
-			#time.sleep(random.choice(possible_sleep_lengths))
+			self.write_to_file("end", timestamp)
+			timestamp += timedelta(0, 4)
+			time.sleep((timestamp - datetime.now()).total_seconds())
 
 		self.text.set("session over")
 		self.file.close()
 
-	def write_to_file(self, command):
-		self.file.write(str(datetime.now()) + "\t" + command + "\n")
+	def write_to_file(self, command, timestamp):
+		self.file.write(str(timestamp) + "\t" + command + "\n")
 
 
 # GUI
