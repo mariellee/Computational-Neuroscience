@@ -23,7 +23,7 @@ class TextChanger(threading.Thread):
 		time.sleep((timestamp - datetime.now()).total_seconds())
 
 		for i in range(24):
-			message = random.choice(possible_texts)
+			message = possible_texts[i]
 			self.text.set(message)
 			self.write_to_file(message, timestamp)
 			timestamp += timedelta(0, 4)
